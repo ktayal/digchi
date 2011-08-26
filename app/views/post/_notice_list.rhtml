@@ -1,0 +1,136 @@
+ <span id="loading_image_div" style="top:165px; position: absolute; left: 530px;" ></span>
+<input type="hidden" name="share[company]" id="company_name" value="<%=@company_name%>"></input>
+  <input type="hidden" name="share[category]" id="category_name" value="<%=@category_name%>"></input>
+  <input type="hidden" name="share[city]" id="city_name" value="<%=@city_name%>"></input>
+<ul >
+     <!-- <%#if @company_name%>
+
+  <%#*<li>%>
+    <%#*<span style="font-size: 12px ; font-family: Decorative"><%=@company_name%> <span style="color:blue">>></span> <%#=@city_name%> <span style="color:blue">>></span> <%#=@category_name%> </span>%>
+  <%#*</li>%>
+  <%#*<li>%>
+  
+  <%#*<div class="counter_div">%>
+  <%#*<table  width="100%">%>
+    <%#*<tr>%>
+      <%#*<td align="left"><label>Today : <%=@company_today_count%></label></td>%>
+      <%#*<td align="center"><label>On Selected Dates :<%if @dates_selected%><%#=@selected_date_counts%><%#end%></label>%>
+
+    <%#*</td>%>
+    <%#*<td align="right"><label>Total : <%=@company_all_count%></label></td>%>
+    <%#*</tr>%>
+  <%#*</table>%>
+    <%#*</div>%>
+<%#*</li>%>
+<%#end%>
+     -->
+<li>
+
+  <%if @cities and @cities.count>0%>
+  <div id="cat_div" style="background-color: rgb(250,100,0);">
+    <div class="cat_header">
+      <span ><%=@company_name%> Cities</span>
+    </div>
+    <div id="cat_list">
+      <%for  city in @cities  do%>
+      <span class="cat_names"><a href="javascript:fetch_for_categories('ALL','<%=@company_name%>','<%=city.city%>');"><%=city.city%></a><label>(<%=city.count%>)</label></span>
+      <%end%>
+    </div>
+
+  </div>
+  <%end%>
+</li>
+
+
+
+
+<li>
+  <%if @categories and @categories.count>0%>
+  <div id="cat_div" >
+    <div class="cat_header" >
+      <span style="color: green"><%=@company_name%> Categories</span>
+    </div>
+    <div id="cat_list">
+      <%for  category in @categories  do%>
+      <span class="cat_names"><a href="javascript:fetch_for_categories('<%=category.category%>','<%=@company_name%>','<%=@city_name%>');"><%=category.category%></a><label>(<%=category.count%>)</label></span>
+      <%end%>
+    </div>
+
+  </div>
+  <%end%>
+</li>
+<li >
+  <%if @posts and @posts.count>0%>
+    <%= will_paginate(@posts,:params =>{:controller => "post", :action => @action ,:company=>@company_name,:start_date=>@start_date,:end_date=>@end_date}) %>
+
+<%  for post in @posts%>
+    <li class="outer">
+
+            <div id="template" style="background-color: <%=post.color%>">
+            <span id="chit_date"><%=post.created_at.to_date%></span>
+              <img src="/images/pin.png" id="pin_image"></img>
+<!--
+<%#*<a  href="/post/edit_notice_page/?id=<%=post.id%>" id="edit_btn">%>
+          <%#*<img src="/images/edit.png" title="edit notice"id="edit_btn" ></img>%>
+          <%#*edit%>
+        <%#*</a>%>
+-->
+
+        <%#*<img src="/images/corner.png" id="corner_image"></img>%>
+        <div id="chit_heading"><%=post.title%></div>
+        <div id="chit_message<%=post.id%>" class="chit_message"><%=post.message%></div><script>Linkify('chit_message<%=post.id%>');</script>
+        <span onclick="show_details(this,'details_div<%=post.id%>');">
+        <img src="/images/plus.png" title="view contact details"id="details_btn" onmouseover="this.src='/images/minus.png'" onmouseout="this.src='/images/plus.png'" ></img>
+        </span>
+        <div id="details_div<%=post.id%>" class="details_div" style="display: none">
+      <ul>
+
+        <li>
+          <span> <strong><%=post.company%></strong> , <%=post.city%></span>
+        </li>
+        <li>
+          <span> <%=post.name%></span>
+        </li>
+        <li>
+          <span> <%=post.phone%></span>
+        </li>
+        <li>
+          <span> <%=post.email%></span>
+        </li>
+        <li align="right" style="text-align: right">
+          <a name="fb_share" type="button_count"  share_url="http://www.digchi.com/post/?id=<%=post.id%>"></a>
+          <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+        </li>
+      </ul>
+</div>
+      </div>
+
+
+
+
+    </li>
+    <%end%>
+
+    <%= will_paginate(@posts,:params =>{:controller => "post", :action => @action ,:company=>@company_name,:start_date=>@start_date,:end_date=>@end_date}) %>
+
+<%else%>
+<div style="margin-top: 20px;">
+    <span id="err_msg">
+      <% if flash[:notice] %>
+      <strong style="font-size: 20px;font-style: italic"><%=  flash[:notice]%></strong>
+      <%else%>
+      <strong style="font-size: 20px;font-style: italic; margin: auto;">No Notices Found :(</strong>
+      <%end%>
+    </span>
+
+    </div>
+<%end%>
+</li>
+</ul>
+
+
+
+
+<div id="loading_image" style="display: none">
+  <img src="/images/loading.gif"  alt=":loading..." style="z-index: 10;" />
+</div>

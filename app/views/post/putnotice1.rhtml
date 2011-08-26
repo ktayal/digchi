@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<%= stylesheet_link_tag 'common.css' %>
+<%= javascript_include_tag 'common.js'  %>
+  </head>
+  <body>
+
+  <div id="page">
+      <div id="header" class="page">
+        <table width="100%">
+          <tr>
+            <td>
+              <div>
+                <a href="http://digchi.com" style="text-decoration: none" class="header_logo">Digch<label style="color: blue" >i</label></a>
+              </div>
+            </td>
+            <td align="left">
+              <div id="header_text_div">
+                <div id="header_text_top">  something to post inside your own company ?</div>
+                <div id="header_text_bottom">Notices, annoucements, classifieds, rentals, matrimonials, room sharings ..</div>
+              </div>
+
+
+            </td>
+            <td align="center"><div id="new_notice_div">
+              <a id="new_notice_btn" title="click to post new notice" href="/post/putnotice" class="post_new_notice_btn"><strong>post a new notice</strong></a>
+              <div id="header_text_bottom">Click to add your company  </div>
+
+
+              </div></td>
+          </tr>
+        </table>
+      </div>
+    <table width="100%" >
+      <tr>
+        <td align="center">
+          <div class="page">
+        <div id="contents_pn" class="p_n_n">
+          <a href="/post/index"  style="float: left">Home</a>
+      <div class="outer" style="width: 800px;">
+        <div id="template" style="background-color: <%=@chit_color%>">
+  <img src="/images/pin.png" id="pin_image"></img>
+  <div ><span id="motice_chit_heading" >Notice details ..</span>
+  <span id="motice_chit_heading" style="float: right; font-size: 12px;">Today : <%=Date.today%></span>
+  </div>
+  <div  style="text-align: left; ">
+       <%  form_tag("/post/post_notice",:id=>'share_this_post_form', :method=>'post', :multipart => true) do%>
+    <table width="100%" class="new_notice_table">
+            <tbody>
+            <tr>
+              <td><label for="Name" ><span class="text" style="color:black">Your name</span></label></td>
+              <td ><input  id="share_name" name="share[name]" type="text" style="border: 1px solid black; width:200px; color:black; font-size:16px;" /></td>
+            </tr>
+            <tr>
+            <td><label for="Email " ><span class="text" style="color:black">Email id <span style="font-size: 14px;">(preferrably official id)</span> </span></label></td>
+            <td><input  id="share_email" name="share[email]" type="text" style="border: 1px solid black; width:200px; color:black; font-size:16px;"/></td>
+            </tr>
+            <tr>
+              <td><label for="phone " ><span class="text" style="color:black">Phone <span style="font-size: 14px;">(with std code)</span>/ mobile</span> </label></td>
+            <td><input  id="share_phone" name="share[phone]" type="text" style="border: 1px solid black; width:200px; color:black; font-size:16px;"/></td>
+            </tr>
+            <tr>
+              <td><label for="company " ><span class="text" style="color:black">Company name</span> </label></td>
+            <td><input  id="share_company" name="share[company]" type="text" style="border: 1px solid black; width:200px; color:black; font-size:16px;"/></td>
+            </tr>
+            <tr>
+              <td><label for="city " ><span class="text" style="color:black">Company city</span> </label></td>
+            <td><input  id="share_city" name="share[city]" type="text" style="border: 1px solid black; width:200px; color:black; font-size:16px;"/></td>
+            </tr>
+
+            <tr>
+              <td><label for="title " ><span class="text" style="color:black"> Notice title</span></label></td>
+            <td><input  id="share_title" name="share[title]" type="text" style="border: 1px solid black; width:200px; color:black; font-size:16px;"/></td>
+            </tr>
+
+            <tr>
+              <td><label for="message "><span class="text" style="color:black">Notice message </span></label></td>
+            <td>
+              <textarea id="share_message" name="share[message]" ></textarea>
+              <input type="hidden" id="share_message_formatted" name="share[message_formatted]" ></input>
+            </td>
+
+            </tr>
+
+            <tr>
+              <td><label for="category "><span class="text" style="color:black">Notice Category </span></label></td>
+            <td>
+              <select id="share_category"  style="border: 1px solid black; width:300px; color:black; font-size:16px" name="share[category]">
+                <option value="-1" > . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </option>
+                <%for i in 0..@categories.count-1 do%>
+                <option value='<%=@categories[i]%>'><%=@categories[i]%></option>
+                <%end%>
+
+              </select>
+            </td>
+            </tr>
+
+            <tr>
+              <td colspan="2" align="center">
+                <br/>
+                <span class="label_text"><script>document.write(MESSAGE_ID)</script></span>
+                <div class="label_text" style="float: right;font-size: 12px;font-style: italic"><script>document.write(SIGNATURE_ID)</script></div>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="min-width: 200px;"></td>
+              <td align="left">
+              <%#=submit_tag "post" %>
+              <input type="hidden" name="share[color]" value="<%=@chit_color%>"></input>
+              <div id="submit_btn"  onmouseover="this.style.backgroundColor='whitesmoke'" onmouseout="this.style.backgroundColor='transparent'" title="post new notice "onclick="post_notice(document.getElementById('share_name').value,document.getElementById('share_email').value,document.getElementById('share_phone').value,document.getElementById('share_company').value,document.getElementById('share_city').value,document.getElementById('share_title').value,document.getElementById('share_message').value,document.getElementById('share_category').value);"class="post_new_notice_btn" style="background-color: transparent ; filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='white', endColorstr='gray');width: 220px"><strong style="color:black">okay ! share it now</strong ></div>
+            </td>
+            </tr>
+
+            </tbody></table>
+<%end%>
+</div>
+</div>
+  </div>
+
+    </div>
+            </div>
+        
+        </td>
+      </tr>
+    </table>
+    
+
+      <div id="footer">
+
+      </div>
+
+
+    </div>
+
+  </body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <meta name="google-site-verification" content="Qz8KFF9OAsiOfZ_4GTabVJk05562SHpTO-gBPMcSiqw" />
+    <title>Digchi</title>
+    <meta property="og:title" content="<%=@meta_title%>"/>
+    <meta property="og:type" content="blog"/>
+    <meta property="og:url" content="http://digchi.com/"/>
+    <meta property="og:image" content="http://digchi.com/images/pin.png"/>
+    <meta property="og:site_name" content="Digchi.com"/>
+    <meta property="fb:admins" content="100000731440951"/>
+    <meta property="og:description" content="<%=@meta_description%>"/>
+    <link rel="image_src" href="http://digchi.com/images/pin.png" />
+
+    <%= stylesheet_link_tag 'common.css' %>
+    <%= javascript_include_tag 'prototype.js'  %>
+    <%= javascript_include_tag 'effects.js'  %>
+    <%= javascript_include_tag 'common.js'  %>
+    <%= javascript_include_tag 'jquery-1.4.4.js'  %>
+    <%= javascript_include_tag 'jquery.ui.core.js'  %>
+    <%= javascript_include_tag 'jquery.ui.datepicker.js'  %>
+    <link href="/stylesheets/ui-lightness/jquery.ui.all.css" media="screen" rel="stylesheet" type="text/css"></link>
+    <script >
+            init_date_picker();
+    </script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18832989-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body>
+    <div id="page" >
+      <div id="header" class="page">
+        <table width="100%">
+          <tr>
+            <td>
+              <div>
+                <a href="http://digchi.com" style="text-decoration: none" class="header_logo">Digch<label style="color: blue" >i</label></a>
+              </div>
+            </td>
+            <td align="left">
+              <div id="header_text_div">
+                <div id="header_text_top">  something to post inside your own company ?</div>
+                <div id="header_text_bottom">Notices, announcements, classifieds, rentals, matrimonials, room sharings ..</div>
+              </div>
+            </td>
+            <td align="center">
+              <div id="new_notice_div" >
+                <a id="new_notice_btn" title="click to post new notice" href="/post/putnotice" class="post_new_notice_btn"><strong>post a new notice</strong></a>
+                <div id="header_text_bottom">Click to add your company  </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="page">
+      <div id="center" >
+        <table >
+          <tr>
+            <td>
+              <div id="search_bar" style="margin-left: 10px;">
+                <%  form_tag("/post/search_notice_id",:id=>'search_this_notice', :method=>'post', :multipart => true) do%>
+                <div><span style="color: #666; font-size: 0.8em;">enter your notice id..</span></div>
+                <input  id="s_reference_id" name="share[ref_id]" type="text"  onKeyPress="return disableEnterKey(event);" style="border: 1px solid gray; width:125px; font-size:12px;" />
+                <div style="text-align: left;">
+                  <a href="javascript:edit_notice_id();" >edit</a> | <a href="javascript:search_notice_id();">search</a>
+                </div>
+                <%end%>
+              </div>
+              <div id="company_list_div">
+                <ul id="company_list">
+                  <%if @companies%>
+                    <li onclick="fetch_for_company('ALL',this);">
+                      <a    onmouseover="this.style.backgroundColor='whitesmoke'"  onmouseout="this.style.backgroundColor=''"title="click to see all notices" class="company_name_btn" > <strong style="color:#0063DC; font-size: 22px;text-shadow: black 0px 1px 0px;" >All Companies <div>"<%=@total_count%>"</div></strong> </a>
+                    </li>
+                    <%for  company in @companies  do%>
+                      <li onclick="fetch_for_company('<%=company.company%>',this)">
+                        <a  onmouseover="this.style.backgroundColor='whitesmoke'"  onmouseout="this.style.backgroundColor=''"  title="<%=company.company%> notices" class="company_name_btn"><strong> <%=company.company%> (<%=company.count%>)</strong></a>
+                      </li>
+                    <%end%>
+                  <%end%>
+                </ul>
+              </div>
+            </td>
+            <td >
+              <div id="posts_list_div" >
+                <div id="my_date_picker" >
+                  <table align="center">
+                    <tr >
+                      <td style="vertical-align: middle">
+                        <form action="/post/select_for_dates" id="Select_for_dates" method="post">
+                          <label for="from" class="text">from</label>
+                          <input type="text" id="from" name="share[from]" />
+                          <label for="to" class="text" style="margin-left: 1em;">to</label>
+                          <input type="text" id="to" name="share[to]" />
+                          <input type="hidden" name="share[company]" value="<%=@company_name%>"></input>
+                        </form>
+<%#*<span style="margin-left: 100px;color: #666;font-size: 0.8em;margin-top: 5px;"> start date</span>%>
+<%#*<span style="margin-left: 200px;color: #666;font-size: 0.8em;margin-top: 5px;">end date</span>%>
+                      </td>
+                      <td >
+                        <a  title="click to search notices" href="javascript:fetch_records(document.getElementById('company_name').value,document.getElementById('from').value,document.getElementById('to').value,document.getElementById('category_name').value,document.getElementById('city_name').value);" class="search_btn" style="margin-left: 10px"><strong >search</strong></a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div id="posts_pane">
+                  <%=render:partial=>"notice_list.rhtml"%>
+                </div>
+              </div>
+            </td>
+            <td >
+              <div id="ad_zone">
+                <div style="font-size: 16px; color: #666; padding-top: 0.5em;margin-left: 5px;"> Popular post </div>
+                <div id="ad_list_div">
+                  <%=render:partial=>"popular_posts.rhtml"%>
+                </div>
+                <div id="author">
+                  <div>send us suggestions,feedbacks,improvements:</div>
+                  <div><strong>contactus@digchi.com</strong></div>
+                    <br/>
+                    <div>Note : Best viewed on Google Chrome. </div>
+                    <div>You can download it from <a href="http://www.google.com/chrome" target="_blank">google</a>. </div>
+                    <br/><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fdigchi.com&amp;layout=standard&amp;show_faces=true&amp;width=250&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:250px; height:80px;" allowTransparency="true"></iframe>
+                </div>
+                <div class="sponsors">
+                  <p style="border-bottom: 1px solid #666666">Sponsors:</p><br/>
+                  <p >
+                  <a href="http://www.klaindia.com" target="_blank"><img src="/images/kla.jpg"></img></a>
+                  <div><a href="http://www.klaindia.com" target="_blank">KLA Foods</a></div>
+                  </p><br/>
+                  <p>
+                    <a href="http://www.southdelhidentalclinic.com" target="_blank"><img src="/images/aastha.jpg"></img></a>
+                  <div><a href="http://www.southdelhidentalclinic.com" target="_blank">Aastha Clinic</a></div>
+                  </p>
+                  <br/><p style="border-bottom: 1px solid #666666"> </p>
+                  <div><strong>email : contactus@digchi.com</strong></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+        </div>
+      <div id="footer">
+<% if flash[:notice] %>
+        <div id="popper_div" >
+        <div id="popper" >
+          </div>
+          <div id="flash_notice" class="flash_notice">
+            <div style="text-align: center">
+              <strong><%=flash[:notice]%></strong>
+              <br/><br/>
+              <a href="javascript:closepopup();" class="search_btn" ><strong >OK</strong></a>
+            </div>
+          </div>
+          </div>
+    <%end%>
+      </div>
+    </div>
+  </body>
+</html>

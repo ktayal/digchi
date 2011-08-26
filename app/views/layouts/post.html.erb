@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <meta name="google-site-verification" content="Qz8KFF9OAsiOfZ_4GTabVJk05562SHpTO-gBPMcSiqw" />
+    <title>Digchi</title>
+    <meta property="og:title" content="<%=@meta_title%>"/>
+    <meta property="og:type" content="blog"/>
+    <meta property="og:url" content="http://digchi.com/"/>
+    <meta property="og:image" content="http://digchi.com/images/pin.png"/>
+    <meta property="og:site_name" content="Digchi.com"/>
+    <meta property="fb:admins" content="100000731440951"/>
+    <meta property="og:description" content="<%=@meta_description%>"/>
+    <link rel="image_src" href="http://digchi.com/images/pin.png" />
+
+    <%= stylesheet_link_tag 'common.css' %>
+    <%= javascript_include_tag 'prototype.js'  %>
+    <%= javascript_include_tag 'effects.js'  %>
+    <%= javascript_include_tag 'common.js'  %>
+    <%= javascript_include_tag 'jquery-1.4.4.js'  %>
+    <%= javascript_include_tag 'jquery.ui.core.js'  %>
+    <%= javascript_include_tag 'jquery.ui.datepicker.js'  %>
+    <link href="/stylesheets/ui-lightness/jquery.ui.all.css" media="screen" rel="stylesheet" type="text/css"></link>
+    <script >
+            init_date_picker();
+    </script>
+
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18832989-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body>
+    <div id="page" >
+    <div id="header" class="page">
+        <table width="100%">
+          <tr>
+            <td>
+              <div>
+                <a href="http://digchi.com" style="text-decoration: none" class="header_logo">Digch<label style="color: blue" >i</label></a>
+              </div>
+            </td>
+            <td align="left">
+              <div id="header_text_div">
+                <div id="header_text_top">  something to post inside your own company ?</div>
+                <div id="header_text_bottom">Notices, announcements, classifieds, rentals, matrimonials, room sharings ..</div>
+              </div>
+            </td>
+            <td align="center">
+              <div id="new_notice_div" >
+                <a id="new_notice_btn" title="click to post new notice" href="/post/putnotice" class="post_new_notice_btn"><strong>post a new notice</strong></a>
+                <div id="header_text_bottom">Click to add your company  </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <%= yield%>
+    </div>
+
+  </body>
+  </html>

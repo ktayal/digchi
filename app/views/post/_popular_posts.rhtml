@@ -1,0 +1,40 @@
+<% if @popular_post %>
+<li class="outer" style="width:300px; margin:0px">
+            
+                  <div id="template" style="background-color: <%=@popular_post.color%>">
+                    <span id="chit_date"><%=@popular_post.created_at.to_date%></span>
+                    <img src="/images/pin.png" id="pin_image"></img>
+                    
+<%#*<img src="/images/corner.png" id="corner_image"></img>%>
+                    <div id="chit_heading"><%=@popular_post.title%></div>
+                    <div id="chit_message" class="chit_message"><%=@popular_post.message%></div><script>Linkify('chit_message');</script>
+                    <span onclick="show_popular_post_details(this,'pop_details_div<%=@popular_post.id%>');">
+                    <img src="/images/plus.png" title="view contact details" style="left:145px;" id="details_btn" onmouseover="this.src='/images/minus.png'" onmouseout="this.src='/images/plus.png'" ></img>  
+                    </span>
+                    <div id="pop_details_div<%=@popular_post.id%>" class="details_div" style="display: none">
+                      <ul>
+
+                        <li>
+                          <span> <strong><%=@popular_post.company%></strong> , <%=@popular_post.city%></span>
+                        </li>
+                        <li>
+                          <span> <%=@popular_post.name%></span>
+                        </li>
+                        <li>
+                          <span> <%=@popular_post.phone%></span>
+                        </li>
+                        <li>
+                          <span> <%=@popular_post.email%></span>
+                        </li>
+                       <li align="right" style="text-align: right">
+                       <a name="fb_share" type="button_count"  share_url="http://www.digchi.com/post/?id=<%=@popular_post.id%>"></a>
+                       <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+                       </li>
+                      </ul>
+                    </div>
+                  </div>
+              
+
+          </li>
+
+          <%end%>
